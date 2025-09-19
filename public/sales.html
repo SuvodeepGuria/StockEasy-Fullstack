@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales - StockEasy</title>
+    <meta name="description" content="Manage sales and generate bills with FEFO system">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .suggestions-list {
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 5px;
+        }
+        .suggestion-item {
+            padding: 10px;
+            border-bottom: 1px solid var(--gray-200);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .suggestion-item:hover {
+            background: var(--gray-50);
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo-icon">💊</div>
+                <span class="brand-name">StockEasy</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="add-medicine.html" class="nav-link">Add Medicine</a>
+                <a href="view-records.html" class="nav-link">View Records</a>
+                <a href="sales.html" class="nav-link">Sales</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <div class="nav-buttons">
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px;">
+        <div class="container">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Sales Management</h1>
+                    <p style="color: var(--gray-600);">Generate bills with FEFO (First Expiry First Out) system</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <!-- Sales Form -->
+                <div class="feature-card">
+                    <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        🛒 Create Sale
+                    </h3>
+                    
+                    <form id="salesForm">
+                        <div class="form-group">
+                            <label for="customerName" class="form-label">Customer Name</label>
+                            <input 
+                                type="text" 
+                                id="customerName" 
+                                class="form-input" 
+                                placeholder="Enter customer name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medicineSearch" class="form-label">Medicine Name</label>
+                            <div style="position: relative;">
+                                <input 
+                                    type="text" 
+                                    id="medicineSearch" 
+                                    class="form-input" 
+                                    placeholder="Search medicine..."
+                                    autocomplete="off"
+                                >
+                                <div id="medicineSuggestions" style="display: none; position: absolute; width: 100%; z-index: 1000;"></div>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: var(--primary-orange);">FEFO Selection</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--gray-600);">
+                                Batch: <span id="selectedBatch" style="font-weight: 600;">-</span> | 
+                                Unit Price: ₹<span id="unitPrice" style="font-weight: 600;">0</span>
+                            </p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input 
+                                    type="number" 
+                                    id="quantity" 
+                                    class="form-input" 
+                                    placeholder="Enter quantity"
+                                    min="1"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discount" class="form-label">Discount (%)</label>
+                                <input 
+                                    type="number" 
+                                    id="discount" 
+                                    class="form-input" 
+                                    placeholder="Enter discount"
+                                    min="0"
+                                    max="100"
+                                    value="0"
+                                >
+                            </div>
+                        </div>
+
+                        <div style="background: var(--gray-50); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: between; align-items: center;">
+                                <span style="font-size: 1.25rem; font-weight: 600;">Total Amount: </span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: var(--primary-orange);">
+                                    ₹<span id="totalAmount">0.00</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="generateBill()" class="btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
+                            📄 Generate Bill
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Quick Info -->
+                <div>
+                    <div class="feature-card" style="margin-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            💡 FEFO System
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600); line-height: 1.6;">
+                            Our system automatically suggests medicines with the earliest expiry date first, helping you reduce wastage and maintain fresh stock.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4 style="margin-bottom: 1rem;">📊 Today's Sales</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--gray-600);">Total Sales:</span>
+                                <span style="font-weight: 600;">₹2,450</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--gray-600);">Transactions:</span>
+                                <span style="font-weight: 600;">15</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--gray-600);">Avg. Bill:</span>
+                                <span style="font-weight: 600;">₹163</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="feature-card" style="margin-top: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0;">Recent Transactions</h3>
+                    <button class="btn-secondary">View All</button>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--gray-50);">
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200);">Time</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200);">Customer</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200);">Medicine</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200);">Qty</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--gray-200);">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">2:30 PM</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">John Doe</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">Paracetamol 500mg</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">2</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">₹120</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">1:45 PM</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">Jane Smith</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">Cough Syrup</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">1</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">₹85</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">12:20 PM</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">Mike Johnson</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">Vitamin D3</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">1</td>
+                                <td style="padding: 12px; border-bottom: 1px solid var(--gray-200);">₹250</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 4rem;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">💊</div>
+                        <span class="brand-name">StockEasy</span>
+                    </div>
+                    <p class="footer-description">Making medicine stock management simple and efficient for pharmacy owners.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="sales.html">Sales</a>
+                        <a href="reports.html">Reports</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="index.html#about">About</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#support">Support</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StockEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

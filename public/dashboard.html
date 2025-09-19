@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - StockEasy</title>
+    <meta name="description" content="Manage your pharmacy inventory with StockEasy dashboard">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo-icon">💊</div>
+                <span class="brand-name">StockEasy</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="add-medicine.html" class="nav-link">Add Medicine</a>
+                <a href="view-records.html" class="nav-link">View Records</a>
+                <a href="sales.html" class="nav-link">Sales</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <div class="nav-buttons">
+                    <button onclick="logout()" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px;">
+        <div class="container">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Dashboard</h1>
+                    <p style="color: var(--gray-600);">Welcome back! Here's your pharmacy overview.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="background: rgba(255, 152, 0, 0.1); padding: 0.5rem 1rem; border-radius: var(--border-radius); border: 1px solid rgba(255, 152, 0, 0.3);">
+                        <span style="color: var(--primary-orange); font-weight: 500;">30-day free trial</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card-dashboard">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div class="stat-title">Total Medicines</div>
+                            <div class="stat-value">1,234</div>
+                        </div>
+                        <div style="font-size: 2rem;">📦</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div class="stat-title">Expiring Soon</div>
+                            <div class="stat-value" style="color: #dc3545;">23</div>
+                        </div>
+                        <div style="font-size: 2rem;">⚠️</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div class="stat-title">Monthly Sales</div>
+                            <div class="stat-value" style="color: #28a745;">₹45,230</div>
+                        </div>
+                        <div style="font-size: 2rem;">📈</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div class="stat-title">Total Customers</div>
+                            <div class="stat-value" style="color: #6f42c1;">892</div>
+                        </div>
+                        <div style="font-size: 2rem;">👥</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <button onclick="addRecord()" class="btn-primary" style="padding: 1rem; font-size: 1.1rem;">
+                    ➕ Add Record
+                </button>
+                <button onclick="viewRecord()" class="btn-secondary" style="padding: 1rem; font-size: 1.1rem;">
+                    👁️ View Record
+                </button>
+                <button onclick="sellMedicine()" style="background: #28a745; color: white; padding: 1rem; border: none; border-radius: var(--border-radius); font-size: 1.1rem; cursor: pointer; transition: var(--transition);" onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    🛒 Sell
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <!-- Recent Sales -->
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="margin: 0;">Recent Sales</h3>
+                        <button style="background: none; border: none; color: var(--primary-orange); cursor: pointer; font-weight: 500;">View All</button>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: var(--border-radius);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Paracetamol 500mg</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">John Doe</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>₹120</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-01-15</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: var(--border-radius);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Amoxicillin 250mg</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">Jane Smith</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>₹250</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-01-15</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255, 152, 0, 0.1); padding: 1rem; border-radius: var(--border-radius);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Ibuprofen 400mg</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">Mike Johnson</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>₹180</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-01-14</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expiring Medicines -->
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                            ⚠️ Expiring Soon
+                        </h3>
+                        <button style="background: none; border: none; color: var(--primary-orange); cursor: pointer; font-weight: 500;">View All</button>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: var(--border-radius); border: 1px solid rgba(220, 53, 69, 0.3);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Aspirin 75mg</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">Batch: B123</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong style="color: #dc3545;">12 days left</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-02-15</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: var(--border-radius); border: 1px solid rgba(220, 53, 69, 0.3);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Cough Syrup</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">Batch: B456</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong style="color: #dc3545;">17 days left</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-02-20</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(220, 53, 69, 0.1); padding: 1rem; border-radius: var(--border-radius); border: 1px solid rgba(220, 53, 69, 0.3);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>Vitamin D3</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">Batch: B789</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong style="color: #dc3545;">22 days left</strong>
+                                    <p style="margin: 0; color: var(--gray-600); font-size: 0.9rem;">2024-02-25</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
+                <div class="feature-card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                    <h3>Reports</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 1.5rem;">View detailed analytics and reports</p>
+                    <button onclick="generateReport()" class="btn-secondary" style="width: 100%;">Generate Reports</button>
+                </div>
+                
+                <div class="feature-card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
+                    <h3>Customers</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Manage customer information</p>
+                    <button onclick="viewCustomers()" class="btn-secondary" style="width: 100%;">View Customers</button>
+                </div>
+                
+                <div class="feature-card" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💳</div>
+                    <h3>Upgrade Plan</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Unlock premium features</p>
+                    <button onclick="upgradePlan()" class="btn-primary" style="width: 100%;">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 4rem;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">💊</div>
+                        <span class="brand-name">StockEasy</span>
+                    </div>
+                    <p class="footer-description">Making medicine stock management simple and efficient for pharmacy owners.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="sales.html">Sales</a>
+                        <a href="reports.html">Reports</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="index.html#about">About</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#support">Support</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StockEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StockEasy</title>
+    <meta name="description" content="Login to your StockEasy account to manage your pharmacy inventory">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo-icon">💊</div>
+                <span class="brand-name">StockEasy</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <div class="nav-buttons">
+                    <a href="login.html" class="btn-secondary">Login</a>
+                    <a href="register.html" class="btn-primary">Register</a>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="form-container">
+            <div class="form-header">
+                <div class="nav-brand" style="justify-content: center; margin-bottom: 1rem;">
+                    <div class="logo-icon">💊</div>
+                    <span class="brand-name">StockEasy</span>
+                </div>
+                <h1>Welcome Back</h1>
+                <p style="color: var(--gray-600); margin-bottom: 0;">Now it is very easy to maintain stock.<br>Save your time and enjoy the day.</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email ID</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div style="position: relative;">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                        <button 
+                            type="button" 
+                            onclick="togglePassword()" 
+                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--gray-500);"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary form-submit">
+                    SIGN IN
+                </button>
+
+                <div class="form-links">
+                    <a href="#forgot-password">Forgot Password?</a>
+                    <span style="margin: 0 10px; color: var(--gray-400);">|</span>
+                    <a href="register.html">Create new account</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">💊</div>
+                        <span class="brand-name">StockEasy</span>
+                    </div>
+                    <p class="footer-description">Making medicine stock management simple and efficient for pharmacy owners.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <a href="index.html#features">Features</a>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="reports.html">Reports</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="index.html#about">About</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#support">Support</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StockEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
